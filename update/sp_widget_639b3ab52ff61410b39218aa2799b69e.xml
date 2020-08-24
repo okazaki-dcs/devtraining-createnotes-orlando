@@ -4,15 +4,27 @@
         <client_script><![CDATA[function($rootScope, $scope) {
 	// widget controller
 	var c = this;
+	// 更新対象
+	c.notePos = 0;
 
-	c.selectItem = function(idx) {
-		// メモID
+  c.selectItem = function(idx) {
+		// 更新対象
+		c.notePos = idx;
+    // メモID
 		var sysId = c.data.notes[idx].sys_id;
 		console.log('Note ID: ' + sysId);
 
-		$rootScope.noteID = sysId;
+    $rootScope.noteID = sysId;
 		$rootScope.$emit('selectNote', sysId);
 	}
+
+	// メモリスト更新
+	$rootScope.$on('refreshNotesList', function(event, data) { 
+		console.log("refreshNotesList event received: " + event);
+		console.log(data);
+		c.data.notes[c.notePos].title = data.title;
+		c.data.notes[c.notePos].note = data.note;
+	});
 }
 ]]></client_script>
         <controller_as>c</controller_as>
@@ -58,14 +70,14 @@
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2020-08-24 00:11:22</sys_created_on>
         <sys_id>639b3ab52ff61410b39218aa2799b69e</sys_id>
-        <sys_mod_count>8</sys_mod_count>
+        <sys_mod_count>9</sys_mod_count>
         <sys_name>Notes List</sys_name>
         <sys_package display_value="CreateNotes" source="x_snc_createnotes">df5fd9a5090232007f44e1046c8ff69f</sys_package>
         <sys_policy/>
         <sys_scope display_value="CreateNotes">df5fd9a5090232007f44e1046c8ff69f</sys_scope>
         <sys_update_name>sp_widget_639b3ab52ff61410b39218aa2799b69e</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2020-08-24 01:16:42</sys_updated_on>
+        <sys_updated_on>2020-08-24 06:27:56</sys_updated_on>
         <template><![CDATA[<div class="panel panel-default">
   <div class="panel-heading clearfix">
     <h3 class="panel-title pull-left">${Notes}</h3>
